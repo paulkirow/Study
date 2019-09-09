@@ -56,6 +56,8 @@ class Graph(object):
                     edges.append({vertex, neighbour})
         return edges
 
+    def bfs_search
+
     def __str__(self):
         res = "vertices: "
         for k in self.__graph_dict:
