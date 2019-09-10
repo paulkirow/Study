@@ -1,8 +1,5 @@
-""" A Python Class
-A simple Python graph class, demonstrating the essential
-facts and functionalities of graphs.
-"""
 import queue
+import sys
 
 
 class Graph(object):
@@ -31,18 +28,13 @@ class Graph(object):
             Otherwise nothing has to be done.
         """
         if vertex not in self.__graph_dict:
-            self.__graph_dict[vertex] = []
+            self.__graph_dict[vertex] = {}
 
-    def add_edge(self, edge):
+    def add_edge(self, vertex1, vertex2, weight):
         """ assumes that edge is of type set, tuple or list;
             between two vertices can be multiple edges!
         """
-        edge = set(edge)
-        (vertex1, vertex2) = tuple(edge)
-        if vertex1 in self.__graph_dict:
-            self.__graph_dict[vertex1].append(vertex2)
-        else:
-            self.__graph_dict[vertex1] = [vertex2]
+        self.__graph_dict[vertex1][vertex2] = weight
 
     def __generate_edges(self):
         """ A static method generating the edges of the
@@ -53,9 +45,29 @@ class Graph(object):
         edges = []
         for vertex in self.__graph_dict:
             for neighbour in self.__graph_dict[vertex]:
-                if {neighbour, vertex} not in edges:
-                    edges.append({vertex, neighbour})
+                if {neighbour, vertex, self.__graph_dict[vertex][neighbour]} not in edges:
+                    edges.append([vertex, neighbour, self.__graph_dict[vertex][neighbour]])
         return edges
+
+    def dijkstras(self, source, dest):
+        dist_map = {source: 0}
+        visited = {source: True}
+
+        for v in graph.vertices():
+            n = self.__min_dist(dist_map, visited)
+            visited[n] = True
+
+            for 
+
+    @staticmethod
+    def __min_dist(dist_map, visited_map):
+        min_index = None
+        min = sys.maxsize
+        for v in graph.vertices():
+            if (v in dist_map and dist_map[v] < min) and (v not in visited_map):
+                min = dist_map[v]
+                min_index = v
+        return min_index
 
     def bfs_search(self, source, dest):
         if source == dest:
@@ -108,17 +120,17 @@ class Graph(object):
 
 
 if __name__ == "__main__":
-    g = {"a": ["b"],
-         "b": ["1", "c"],
-         "c": ["d", "4","e"],
-         "d": ["a", "e"],
-         "e": ["f", "g"],
-         "f": ["4"],
-         "g": ["f"],
-         "1": ["3", "2"],
-         "2": ["c"],
-         "3": ["2"],
-         "4": ["2"]
+    g = {"a": {"b": 14, "d": 13},
+         "b": {"1": 26, "c": 180, "a": 14},
+         "c": {"b": 180, "d": 101, "4": 5, "e": 99, "2": 31},
+         "d": {"a": 13, "e": 3, "c": 101},
+         "e": {"f": 33, "g": 40, "d": 3, "c": 99},
+         "f": {"4": 7, "g": 10, "e": 33},
+         "g": {"f": 10, "e": 40},
+         "1": {"3": 18, "2": 12, "b": 26},
+         "2": {"c": 31, "4": 8, "3": 17, "1": 12},
+         "3": {"2": 17, "1": 18},
+         "4": {"2": 8, "c": 5, "f": 7}
          }
 
     graph = Graph(g)
@@ -134,27 +146,3 @@ if __name__ == "__main__":
 
     print("Vertices of graph:")
     print(graph.vertices())
-
-    print("Add an edge:")
-    graph.add_edge({"a", "z"})
-
-    print("Vertices of graph:")
-    print(graph.vertices())
-
-    print("Edges of graph:")
-    print(graph.edges())
-
-    print('Adding an edge {"x","y"} with new vertices:')
-    graph.add_edge({"x", "y"})
-    print("Vertices of graph:")
-    print(graph.vertices())
-    print("Edges of graph:")
-    print(graph.edges())
-
-    print("BFS")
-    print("a to f: " + str(graph.bfs_search('a', 'f')))
-    print("g to a: " + str(graph.bfs_search('g', 'a')))
-
-    print("DFS")
-    print("a to f: " + str(graph.dfs_search('a', 'f', {})))
-    print("g to a: " + str(graph.dfs_search('g', 'a', {})))
