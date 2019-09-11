@@ -57,7 +57,7 @@ class Graph(object):
             n = self.__min_dist(dist_map, visited)
             visited[n] = True
 
-            for 
+            for
 
     @staticmethod
     def __min_dist(dist_map, visited_map):
