@@ -1,6 +1,6 @@
 import queue
 import sys
-
+import heapq
 
 class Graph(object):
 
@@ -51,13 +51,53 @@ class Graph(object):
 
     def dijkstras(self, source, dest):
         dist_map = {source: 0}
-        visited = {source: True}
+        visited = {}
 
         for v in graph.vertices():
             n = self.__min_dist(dist_map, visited)
             visited[n] = True
 
-            for
+            if n is None:
+                return dist_map
+
+            edges = self.__graph_dict[n]
+            for e in edges.keys():
+                if e not in dist_map:
+                    dist_map[e] = edges[e] + dist_map[n]
+                else:
+                    dist_map[e] = min(dist_map[e], edges[e] + dist_map[n])
+
+        return dist_map
+
+    def dijkstras2(self, source, dest):
+        dist_map = [(0,source)]
+        visited = {}
+
+        for v in graph.vertices():
+            n = self.__min_dist(dist_map, visited)
+            visited[n] = True
+
+            if n is None:
+                return dist_map
+
+            edges = self.__graph_dict[n]
+            for e in edges.keys():
+                if e not in dist_map:
+                    dist_map[e] = edges[e] + dist_map[n]
+                else:
+                    dist_map[e] = min(dist_map[e], edges[e] + dist_map[n])
+
+        return dist_map
+
+    @staticmethod
+    def __min_dist2(dist_map, visited_map):
+        min_index = None
+        min = sys.maxsize
+        for v in graph.vertices():
+            if (v in dist_map and dist_map[v] < min) and (v not in visited_map):
+                min = dist_map[v]
+                min_index = v
+        return min_index
 
     @staticmethod
     def __min_dist(dist_map, visited_map):
@@ -146,3 +186,9 @@ if __name__ == "__main__":
 
     print("Vertices of graph:")
     print(graph.vertices())
+
+    print("Dijsktra's Shortest Path Dict:")
+    print(graph.dijkstras("a", "3"))
+
+    print("Dijsktra's Shortest Path Dict 2:")
+    print(graph.dijkstras2("a", "3"))
