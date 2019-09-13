@@ -1,4 +1,5 @@
 import heapq
+import sys
 
 dict = [(0, "a"), (5, "g"), (3, "e"), (10, "b"), (1, "z")]
 
@@ -35,3 +36,21 @@ def findNumberOfLIS(nums: [int]) -> int:
 
 print(findNumberOfLIS([1, 3, 5, 4, 7, 8]))
 print(findNumberOfLIS([2, 2, 2, 2, 2, 2]))
+
+dict = {(1, 2): 5, (2, 1): 2}
+print(dict[(1,2)])
+
+forest = [
+    [1, 2, 3],
+    [0, 0, 4],
+    [7, 6, 5]
+]
+dist_map = {}
+for y in range(len(forest)):
+    dist_map = {(x, y): sys.maxsize for x in range(len(forest[y]))}
+visited = {}
+dist_map[(0,0)] = 0
+print(dist_map)
+dist_map = heapq.heapify(dist_map)
+
+print(dist_map)

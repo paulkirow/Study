@@ -4,18 +4,18 @@ import heapq
 
 class Graph(object):
 
-    def __init__(self, graph_dict=None):
+    def __init__(self, graph_matrix=None):
         """ initializes a graph object
             If no dictionary or None is given,
             an empty dictionary will be used
         """
-        if graph_dict == None:
-            graph_dict = {}
-        self.__graph_dict = graph_dict
+        if graph_matrix == None:
+            graph_dict = []
+        self.__graph = graph
 
     def vertices(self):
         """ returns the vertices of a graph """
-        return list(self.__graph_dict.keys())
+        return list(self.__graph_matrix.keys())
 
     def edges(self):
         """ returns the edges of a graph """
@@ -27,8 +27,8 @@ class Graph(object):
             list as a value is added to the dictionary.
             Otherwise nothing has to be done.
         """
-        if vertex not in self.__graph_dict:
-            self.__graph_dict[vertex] = {}
+        if vertex not in self.__graph_matrix:
+            self.__graph_matrix[vertex] = {}
 
     def add_edge(self, vertex1, vertex2, weight):
         """ assumes that edge is of type set, tuple or list;
@@ -49,7 +49,7 @@ class Graph(object):
                     edges.append([vertex, neighbour, self.__graph_dict[vertex][neighbour]])
         return edges
 
-    def dijkstras(self, source):
+    def dijkstras(self, source, dest):
         dist_map = {source: 0}
         visited = {}
 
@@ -68,31 +68,6 @@ class Graph(object):
                     dist_map[e] = min(dist_map[e], edges[e] + dist_map[n])
 
         return dist_map
-
-    def dijkstras_dest(self, source, dest):
-        dist_map = {source: 0}
-        visited = {}
-
-        for v in graph.vertices():
-            n = self.__min_dist(dist_map, visited)
-
-            if n == dest:
-                return dist_map[n]
-
-            visited[n] = True
-
-            if n is None:
-                return dist_map
-
-            edges = self.__graph_dict[n]
-            for e in edges.keys():
-                if e not in dist_map:
-                    dist_map[e] = edges[e] + dist_map[n]
-                else:
-                    dist_map[e] = min(dist_map[e], edges[e] + dist_map[n])
-
-        return dist_map[n]
-
 
     @staticmethod
     def __min_dist(dist_map, visited_map):
@@ -183,7 +158,4 @@ if __name__ == "__main__":
     print(graph.vertices())
 
     print("Dijsktra's Shortest Path Dict:")
-    print(graph.dijkstras("a"))
-
-    print("Dijsktra's Shortest Path Destination:")
-    print(graph.dijkstras_dest("a", "3"))
+    print(graph.dijkstras("a", "3"))
