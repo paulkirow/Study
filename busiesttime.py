@@ -13,4 +13,12 @@ def find_busiest_period(data):
     return result
 
 
-print(find_busiest_period([[1487799426, 21, 1]]))
+#print(find_busiest_period([[1487799426, 21, 1]]))
+
+s = "abcd"
+print(s)
+print(s[0])
+print(s[0:0])
+print(s[0:2])
+L = []
+L.sort()
