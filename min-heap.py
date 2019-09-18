@@ -51,6 +51,22 @@ for y in range(len(forest)):
 visited = {}
 dist_map[(0,0)] = 0
 print(dist_map)
-dist_map = heapq.heapify(dist_map)
+#dist_map = heapq.heapify(dist_map)
 
 print(dist_map)
+
+
+
+print((10 - 1) >> 2)
+
+
+d = {}
+d["a"]=1
+d["b"]=2
+print(d)
+d["c"]=3
+d["d"]=4
+print(d)
+d["1"]="a"
+d["a"]="4"
+print(d)

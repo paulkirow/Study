@@ -58,7 +58,7 @@ class Graph(object):
             visited[n] = True
 
             if n is None:
-                return dist_map
+                return None
 
             edges = self.__graph_dict[n]
             for e in edges.keys():
@@ -72,26 +72,35 @@ class Graph(object):
     def dijkstras_dest(self, source, dest):
         dist_map = {source: 0}
         visited = {}
+        path = {}
+        final_path = [source]
 
         for v in graph.vertices():
             n = self.__min_dist(dist_map, visited)
 
-            if n == dest:
-                return dist_map[n]
-
             visited[n] = True
 
             if n is None:
-                return dist_map
+                return None
 
             edges = self.__graph_dict[n]
             for e in edges.keys():
                 if e not in dist_map:
                     dist_map[e] = edges[e] + dist_map[n]
-                else:
-                    dist_map[e] = min(dist_map[e], edges[e] + dist_map[n])
+                    path[e] = n
+                elif edges[e] + dist_map[n] < dist_map[e]:
+                    dist_map[e] = edges[e] + dist_map[n]
+                    path[e] = n
 
-        return dist_map[n]
+            if n == dest:
+                final_path = [dest]
+                x = dest
+                while x != source:
+                    final_path.append(path[x])
+                    x = path[x]
+                break
+
+        return dist_map[n], final_path
 
 
     @staticmethod
@@ -165,7 +174,8 @@ if __name__ == "__main__":
          "1": {"3": 18, "2": 12, "b": 26},
          "2": {"c": 31, "4": 8, "3": 17, "1": 12},
          "3": {"2": 17, "1": 18},
-         "4": {"2": 8, "c": 5, "f": 7}
+         "4": {"2": 8, "c": 5, "f": 7},
+         "Nan": {}
          }
 
     graph = Graph(g)
@@ -186,4 +196,12 @@ if __name__ == "__main__":
     print(graph.dijkstras("a"))
 
     print("Dijsktra's Shortest Path Destination:")
-    print(graph.dijkstras_dest("a", "3"))
+    print(graph.dijkstras_dest("a", "f"))
+    print(graph.dijkstras_dest("c", "a"))
+    print(graph.dijkstras_dest("g", "b"))
+    print(graph.dijkstras_dest("3", "g"))
+    print(graph.dijkstras_dest("1", "3"))
+    print(graph.dijkstras_dest("e", "3"))
+    print(graph.dijkstras_dest("Nan", "f"))
+    print(graph.dijkstras_dest("f", "Nan"))
+
